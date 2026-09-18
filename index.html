@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Week — Child Survey Mockup v3</title>
+<style>
+:root{
+  --bg:#f4f9fc;
+  --card:#ffffff;
+  --text:#23313f;
+  --muted:#617080;
+  --line:#d5e0e8;
+  --accent:#e36b2c;
+  --dark:#2673a8;
+  --note:#fff4bf;
+  --note-line:#e6b63a;
+  --help:#e8f6fb;
+  --help-line:#38a6b8;
+  --good:#e8f7ee;
+  --blue:#e8f3ff;
+  --teal:#e7f8f5;
+  --green:#eef8df;
+  --orange:#fff1df;
+  --purple:#f0edff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:"Trebuchet MS","Avenir Next",Arial,sans-serif;line-height:1.5
+}
+.wrap{max-width:780px;margin:0 auto;padding:16px 12px 56px}
+h1{
+  font-family:"Arial Rounded MT Bold","Trebuchet MS","Avenir Next",Arial,sans-serif;
+  font-size:1.72rem;line-height:1.15;margin:8px 0 4px;
+  color:#236a9a;letter-spacing:.01em
+}
+.subtitle{margin:0 0 12px;color:var(--muted)}
+.progress-shell{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:14px 0 20px}
+.progress-bar{
+  height:100%;width:0;
+  background:linear-gradient(90deg,#2f80c1,#32b3a4,#f0a23a);
+  transition:width .2s ease
+}
+.section{display:none}
+.section.active{display:block}
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:18px;margin:14px 0;
+  box-shadow:0 4px 12px rgba(35,78,105,.06)
+}
+.section-kicker{
+  display:inline-block;text-transform:uppercase;letter-spacing:.06em;
+  font-size:.76rem;font-weight:800;color:#17668a;
+  background:var(--blue);border:1px solid #b9d9ef;border-radius:999px;
+  padding:5px 10px;margin-bottom:7px
+}
+h2{
+  font-family:"Arial Rounded MT Bold","Trebuchet MS","Avenir Next",Arial,sans-serif;
+  font-size:1.42rem;margin:.15rem 0 .65rem;color:#236a9a
+}
+p{margin:.35rem 0 .8rem}
+.cue{
+  color:#c8581f;font-weight:900;text-decoration:underline;
+  text-decoration-thickness:2px;text-underline-offset:2px
+}
+.important{
+  background:var(--note);border:1.5px solid var(--note-line);border-radius:13px;
+  padding:12px 13px;margin:12px 0 16px;color:#453d23;font-weight:700
+}
+.help{
+  background:var(--help);border-left:5px solid var(--help-line);
+  border-radius:11px;padding:10px 12px;margin:8px 0 12px;
+  color:#2f4860;font-size:.95rem;font-weight:650
+}
+.question{padding:16px 0;border-top:1px solid #edf0f3}
+.question:first-child{border-top:0;padding-top:0}
+.qtext{font-weight:800;font-size:1.03rem;margin-bottom:10px}
+.choices{display:grid;gap:8px}
+label.option{
+  display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);
+  border-radius:13px;background:#fff;padding:11px 12px;cursor:pointer;
+  transition:border-color .15s ease, background .15s ease, transform .12s ease
+}
+label.option:hover{
+  border-color:#69b8c6;background:#f2fbfd;transform:translateY(-1px)
+}
+input[type=radio],input[type=checkbox]{margin-top:3px;transform:scale(1.18)}
+select,input[type=text]{
+  width:100%;font:inherit;padding:11px 12px;border-radius:13px;
+  border:1px solid var(--line);background:#fff;color:var(--text)
+}
+.device{
+  border:1px solid #cfe0ea;border-radius:15px;padding:14px;margin:12px 0;
+  background:linear-gradient(180deg,#ffffff 0%,#f4fbfd 100%)
+}
+.device-title{font-size:1.02rem;font-weight:800;margin-bottom:9px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field-title{font-weight:800;font-size:.92rem;margin-bottom:6px}
+.day-select{max-width:320px}
+.time-line{
+  display:flex;align-items:center;gap:7px;max-width:360px
+}
+.time-box{
+  width:72px !important;text-align:center;font-size:1.05rem;font-weight:700
+}
+.ampm{width:90px}
+.colon{font-size:1.25rem;font-weight:800}
+.conditional{display:none}
+.conditional.show{display:block}
+.feedback{
+  display:none;margin-top:10px;padding:10px 12px;border-radius:10px;
+  background:var(--good);border:1px solid #9ad0aa;font-weight:700
+}
+.feedback.show{display:block}
+.warmup-input{margin-top:7px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+button{
+  font:inherit;font-weight:800;border-radius:11px;padding:12px 18px;
+  cursor:pointer;border:1px solid var(--dark)
+}
+.next{
+  background:linear-gradient(135deg,#2879b1,#32a89c);
+  color:#fff;border-color:#2879b1
+}
+.back{background:#fff;color:#2879b1;border-color:#9fc7da}
+.note{font-size:.88rem;color:var(--muted)}
+.finish{text-align:center;padding:30px 14px}
+@media(max-width:600px){
+  .wrap{padding:10px 9px 40px}
+  h1{font-size:1.35rem}
+  .card{padding:14px;border-radius:12px}
+  .two-col{grid-template-columns:1fr}
+  button{flex:1}
+}
+
+/* Small color cues by section — playful but not gendered */
+.section[data-step="1"] .card{border-top:5px solid #48a7d4}
+.section[data-step="2"] .card{border-top:5px solid #57b88f}
+.section[data-step="3"] .card{border-top:5px solid #7b87d8}
+.section[data-step="4"] .card{border-top:5px solid #f09a45}
+.section[data-step="5"] .card{border-top:5px solid #37a8a0}
+.section[data-step="0"] .card{border-top:5px solid #76b7d9}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Your Week</h1>
+  <p class="subtitle">A few questions about your week</p>
+  <div class="progress-shell"><div class="progress-bar" id="progress"></div></div>
+
+  <!-- PRACTICE -->
+  <section class="section active" data-step="0">
+    <div class="card">
+      <div class="section-kicker">Before you start</div>
+      <h2>Quick warm-up</h2>
+      <p>There are <strong>no right or wrong answers</strong> in this survey. If you are not sure, you can choose <strong>Not sure</strong>.</p>
+    </div>
+
+    <div class="card">
+      <div class="question">
+        <div class="qtext">📱 What’s one app, game, show, YouTuber, streamer, or creator you think is actually fun right now?</div>
+        <input class="warmup-input" type="text" placeholder="Type anything you want — or leave it blank">
+      </div>
+
+      <div class="question">
+        <div class="qtext">🐾 If you could have any of these as pets, which would you pick? Choose as many as you want.</div>
+        <div class="choices">
+          <label class="option"><input type="checkbox"> 🐶 Dog</label>
+          <label class="option"><input type="checkbox"> 🐱 Cat</label>
+          <label class="option"><input type="checkbox"> 🐰 Rabbit</label>
+          <label class="option"><input type="checkbox"> 🐹 Hamster</label>
+          <label class="option"><input type="checkbox"> 🐢 Turtle</label>
+          <label class="option"><input type="checkbox"> 🐠 Fish</label>
+          <label class="option"><input type="checkbox"> 🐴 Horse</label>
+          <label class="option"><input type="checkbox"> 🐉 Dragon</label>
+          <label class="option"><input type="checkbox"> ✨ Something else</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav"><span></span><button class="next" onclick="go(1)">Let’s go</button></div>
+  </section>
+
+  <!-- SECTION 1 -->
+  <section class="section" data-step="1">
+    <div class="card">
+      <div class="section-kicker">Section 1 of 5</div>
+      <h2>Screens and Activities</h2>
+
+      <h3>TV, tablets, computers, and games</h3>
+      <div class="important">
+        For each one, think about a <span class="cue">USUAL SCHOOL DAY</span> last week and a <span class="cue">USUAL WEEKEND DAY</span> last week.
+        <br><br>
+        <span class="cue">DO NOT COUNT TIME FOR SCHOOL OR HOMEWORK.</span>
+      </div>
+
+      <div class="device">
+        <div class="device-title">Watching or streaming on a TV</div>
+        <div class="two-col">
+          <div><div class="field-title">Usual SCHOOL DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+          <div><div class="field-title">Usual WEEKEND DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="device-title">Using a tablet or iPad for fun</div>
+        <div class="two-col">
+          <div><div class="field-title">Usual SCHOOL DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+          <div><div class="field-title">Usual WEEKEND DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="device-title">Using a computer or laptop for fun</div>
+        <div class="two-col">
+          <div><div class="field-title">Usual SCHOOL DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+          <div><div class="field-title">Usual WEEKEND DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="device-title">Playing on a game system, like Switch, PlayStation, or Xbox</div>
+        <div class="two-col">
+          <div><div class="field-title">Usual SCHOOL DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+          <div><div class="field-title">Usual WEEKEND DAY</div><select><option>Choose one</option><option>None</option><option>Less than 30 minutes</option><option>30 minutes–1 hour</option><option>1–2 hours</option><option>2–4 hours</option><option>More than 4 hours</option></select></div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px;">Things you did this week</h3>
+      <div class="important">For these questions, think about the <span class="cue">PAST 7 DAYS</span>.</div>
+
+      <div class="question">
+        <div class="qtext">On how many days were you <strong>physically active for about 1 hour or more</strong>?</div>
+        <div class="help">This can include playing outside, sports, biking, running, dancing, exercising, or other active play.</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On how many days did you spend time <strong>outside for fun</strong>?</div>
+        <div class="help">This could be playing, walking around, relaxing, or spending time with other people outside.</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On how many days did you <strong>read for fun</strong>, not for school?</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On how many days did you <strong>make or create something for fun</strong>?</div>
+        <div class="help">For example: drawing, crafts, building, baking, writing, making music, or making something else.</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On how many days did you spend time with friends <strong>in person</strong>?</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On a usual <span class="cue">SCHOOL DAY</span> last week, about how much time did you spend doing <strong>homework</strong>?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="homework"> None</label>
+          <label class="option"><input type="radio" name="homework"> Less than 30 minutes</label>
+          <label class="option"><input type="radio" name="homework"> 30 minutes–1 hour</label>
+          <label class="option"><input type="radio" name="homework"> 1–2 hours</label>
+          <label class="option"><input type="radio" name="homework"> More than 2 hours</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav"><button class="back" onclick="go(0)">Back</button><button class="next" onclick="go(2)">Next</button></div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="section" data-step="2">
+    <div class="card">
+      <div class="section-kicker">Section 2 of 5</div>
+      <h2>At Home</h2>
+      <div class="important">For the questions about days, think about the <span class="cue">PAST 7 DAYS</span>.</div>
+
+      <div class="question">
+        <div class="qtext">On how many days did all or most of your family eat a meal together?</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On how many days did you do something with your family just for fun?</div>
+        <div class="help">For example: talk, play a game, cook, go somewhere, or do something together.</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On how many days did you help with <strong>chores or jobs at home</strong>?</div>
+        <div class="help">For example: cleaning up, helping with dishes or laundry, taking care of a pet, or another job at home.</div>
+        <select class="day-select"><option>Choose 0–7 days</option><option>0 days</option><option>1 day</option><option>2 days</option><option>3 days</option><option>4 days</option><option>5 days</option><option>6 days</option><option>7 days</option></select>
+      </div>
+
+      <div class="question">
+        <div class="qtext">Is there at least one person you can talk to when you have a problem or need help?</div>
+        <div class="help">This could be a parent or caregiver, another family member, teacher, coach, friend, or someone else you trust.</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="trustedperson"> Yes</label>
+          <label class="option"><input type="radio" name="trustedperson"> No</label>
+          <label class="option"><input type="radio" name="trustedperson"> Not sure</label>
+          <label class="option"><input type="radio" name="trustedperson"> Prefer not to say</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">Do your parent(s) or caregiver(s) usually listen to you and take your feelings seriously?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="parentlisten"> Yes</label>
+          <label class="option"><input type="radio" name="parentlisten"> Sometimes</label>
+          <label class="option"><input type="radio" name="parentlisten"> No</label>
+          <label class="option"><input type="radio" name="parentlisten"> Prefer not to say</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav"><button class="back" onclick="go(1)">Back</button><button class="next" onclick="go(3)">Next</button></div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="section" data-step="3">
+    <div class="card">
+      <div class="section-kicker">Section 3 of 5</div>
+      <h2>Sleep and Bedtime</h2>
+
+      <div class="question">
+        <div class="qtext">On <span class="cue">SCHOOL NIGHTS</span>, about what time are you usually asleep?</div>
+        <div class="help">Use the time you are usually asleep — not just the time you get into bed.</div>
+        <div class="time-line">
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="10" aria-label="hour">
+          <span class="colon">:</span>
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="30" aria-label="minutes">
+          <select class="ampm" aria-label="AM or PM"><option>PM</option><option>AM</option></select>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On <span class="cue">SCHOOL DAYS</span>, about what time do you usually wake up?</div>
+        <div class="time-line">
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="7" aria-label="hour">
+          <span class="colon">:</span>
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="00" aria-label="minutes">
+          <select class="ampm" aria-label="AM or PM"><option>AM</option><option>PM</option></select>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On <span class="cue">WEEKEND NIGHTS</span>, about what time are you usually asleep?</div>
+        <div class="time-line">
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="11" aria-label="hour">
+          <span class="colon">:</span>
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="00" aria-label="minutes">
+          <select class="ampm" aria-label="AM or PM"><option>PM</option><option>AM</option></select>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">On <span class="cue">WEEKEND MORNINGS</span>, about what time do you usually wake up?</div>
+        <div class="time-line">
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="9" aria-label="hour">
+          <span class="colon">:</span>
+          <input class="time-box" type="text" inputmode="numeric" maxlength="2" placeholder="00" aria-label="minutes">
+          <select class="ampm" aria-label="AM or PM"><option>AM</option><option>PM</option></select>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">During the <span class="cue">PAST 7 DAYS</span>, on how many nights did you use a <strong>smartphone after you got into bed for the night</strong>?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="phonebed"> I don't have my own smartphone</label>
+          <label class="option"><input type="radio" name="phonebed"> 0 nights</label>
+          <label class="option"><input type="radio" name="phonebed"> 1–2 nights</label>
+          <label class="option"><input type="radio" name="phonebed"> 3–4 nights</label>
+          <label class="option"><input type="radio" name="phonebed"> 5–7 nights</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">During the <span class="cue">PAST 7 DAYS</span>, on how many nights did you use <strong>another screen after you got into bed for the night</strong>?</div>
+        <div class="help">For example: a tablet, computer, TV, or game system.</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="otherbed"> 0 nights</label>
+          <label class="option"><input type="radio" name="otherbed"> 1–2 nights</label>
+          <label class="option"><input type="radio" name="otherbed"> 3–4 nights</label>
+          <label class="option"><input type="radio" name="otherbed"> 5–7 nights</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">When you go to sleep, where is your phone usually?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="phonelocation"> Not in my bedroom</label>
+          <label class="option"><input type="radio" name="phonelocation"> In my bedroom, but not next to me</label>
+          <label class="option"><input type="radio" name="phonelocation"> Next to me or in my bed</label>
+          <label class="option"><input type="radio" name="phonelocation"> I don't have my own smartphone</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav"><button class="back" onclick="go(2)">Back</button><button class="next" onclick="go(4)">Next</button></div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="section" data-step="4">
+    <div class="card">
+      <div class="section-kicker">Section 4 of 5</div>
+      <h2>Smartphones</h2>
+      <div class="important">For the phone questions, think about the <span class="cue">PAST 7 DAYS</span>. The safety questions use the <span class="cue">PAST 30 DAYS</span>.</div>
+
+      <div class="question">
+        <div class="qtext">How often did you <strong>check your phone during a family meal</strong>?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="mealphone"> Never</label>
+          <label class="option"><input type="radio" name="mealphone"> Sometimes</label>
+          <label class="option"><input type="radio" name="mealphone"> A lot</label>
+          <label class="option"><input type="radio" name="mealphone"> I did not eat a meal with my family</label>
+          <label class="option"><input type="radio" name="mealphone"> I don't have my own smartphone</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">While doing homework, how often did you <strong>look at your phone for something else</strong>?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="hwphone"> Never</label>
+          <label class="option"><input type="radio" name="hwphone"> Sometimes</label>
+          <label class="option"><input type="radio" name="hwphone"> A lot</label>
+          <label class="option"><input type="radio" name="hwphone"> I did not do homework</label>
+          <label class="option"><input type="radio" name="hwphone"> I don't have my own smartphone</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">While you were hanging out with friends, how often did you <strong>check your phone</strong>?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="friendphone"> Never</label>
+          <label class="option"><input type="radio" name="friendphone"> Sometimes</label>
+          <label class="option"><input type="radio" name="friendphone"> A lot</label>
+          <label class="option"><input type="radio" name="friendphone"> I did not hang out with friends</label>
+          <label class="option"><input type="radio" name="friendphone"> I don't have my own smartphone</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">Do you have your own account on any social media app or website?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="social"> Yes</label>
+          <label class="option"><input type="radio" name="social"> No</label>
+          <label class="option"><input type="radio" name="social"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">During the <span class="cue">PAST 30 DAYS</span>, did anyone <strong>in person</strong> pick on you, be mean to you, or leave you out on purpose?</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="offlinepeer"> Yes</label>
+          <label class="option"><input type="radio" name="offlinepeer"> No</label>
+          <label class="option"><input type="radio" name="offlinepeer"> Not sure</label>
+          <label class="option"><input type="radio" name="offlinepeer"> Prefer not to say</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="qtext">During the <span class="cue">PAST 30 DAYS</span>, did you see or have something happen to you online that <strong>bothered or upset you</strong>?</div>
+        <div class="help">This could be something that made you feel uncomfortable, scared, sad, or like you should not have seen it.</div>
+        <div class="choices">
+          <label class="option"><input type="radio" name="harm" value="yes"> Yes</label>
+          <label class="option"><input type="radio" name="harm" value="no"> No</label>
+          <label class="option"><input type="radio" name="harm" value="notsure"> Not sure</label>
+          <label class="option"><input type="radio" name="harm" value="prefer"> Prefer not to say</label>
+        </div>
+      </div>
+
+      <div class="conditional" id="harmFollow">
+        <div class="question">
+          <div class="qtext">What kind of thing was it? <strong>Choose any that fit.</strong></div>
+          <div class="choices">
+            <label class="option"><input type="checkbox"> Someone was mean to me, embarrassed me, or left me out</label>
+            <label class="option"><input type="checkbox"> Something scary or violent</label>
+            <label class="option"><input type="checkbox"> Something sexual or showing people's bodies that I did not want to see</label>
+            <label class="option"><input type="checkbox"> Something that made me feel bad about myself or how I look</label>
+            <label class="option"><input type="checkbox"> Someone contacted me or talked to me in a way I did not like</label>
+            <label class="option"><input type="checkbox"> Something about hurting yourself or someone else</label>
+            <label class="option"><input type="checkbox"> Something else</label>
+            <label class="option"><input type="checkbox"> Prefer not to say</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="qtext">Where did this happen? <strong>Choose any that fit.</strong></div>
+          <div class="choices">
+            <label class="option"><input type="checkbox"> Social media</label>
+            <label class="option"><input type="checkbox"> YouTube or another video app/site</label>
+            <label class="option"><input type="checkbox"> A game or gaming platform</label>
+            <label class="option"><input type="checkbox"> Messages or group chat</label>
+            <label class="option"><input type="checkbox"> AI/chatbot</label>
+            <label class="option"><input type="checkbox"> Somewhere else online</label>
+            <label class="option"><input type="checkbox"> Don't remember</label>
+            <label class="option"><input type="checkbox"> Prefer not to say</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav"><button class="back" onclick="go(3)">Back</button><button class="next" onclick="go(5)">Next</button></div>
+  </section>
+
+
+  <!-- SECTION 5 -->
+  <section class="section" data-step="5">
+    <div class="card">
+      <div class="section-kicker">Section 5 of 5</div>
+      <h2>Artificial Intelligence (AI)</h2>
+
+      <div class="important">
+        For these questions, think about the <span class="cue">PAST 7 DAYS</span>.
+      </div>
+
+      <div class="question">
+        <div class="qtext">During the <span class="cue">PAST 7 DAYS</span>, on how many days did you use <strong>AI</strong>?</div>
+        <div class="help"><strong>Examples:</strong> ChatGPT, Gemini, Claude, Copilot, Character.AI, Snapchat My AI, Meta AI, or AI built into another app or website.</div>
+        <select id="aiDays" class="day-select">
+          <option value="">Choose 0–7 days</option>
+          <option value="0">0 days</option>
+          <option value="1">1 day</option>
+          <option value="2">2 days</option>
+          <option value="3">3 days</option>
+          <option value="4">4 days</option>
+          <option value="5">5 days</option>
+          <option value="6">6 days</option>
+          <option value="7">7 days</option>
+        </select>
+      </div>
+
+      <div id="aiFollow">
+        <div class="question">
+          <div class="qtext">Where did you use AI? <strong>Choose all that fit.</strong></div>
+          <div class="choices">
+            <label class="option"><input type="checkbox"> I don't use AI at all</label>
+            <label class="option"><input type="checkbox"> On a smartphone</label>
+            <label class="option"><input type="checkbox"> On a tablet or iPad</label>
+            <label class="option"><input type="checkbox"> On a computer or laptop</label>
+            <label class="option"><input type="checkbox"> On a school computer or Chromebook</label>
+            <label class="option"><input type="checkbox"> Somewhere else</label>
+            <label class="option"><input type="checkbox"> Not sure</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="qtext">What did you use AI for? <strong>Choose all that fit.</strong></div>
+          <div class="choices">
+            <label class="option"><input type="checkbox"> I don't use AI at all</label>
+            <label class="option"><input type="checkbox"> Homework</label>
+            <label class="option"><input type="checkbox"> To learn something or ask a question</label>
+            <label class="option"><input type="checkbox"> To make something or get ideas</label>
+            <label class="option"><input type="checkbox"> To practice something or see how I could make it better</label>
+            <label class="option"><input type="checkbox"> To plan or organize something</label>
+            <label class="option"><input type="checkbox"> To help me decide what to do or get advice</label>
+            <label class="option"><input type="checkbox"> To talk about my feelings, worries, or problems</label>
+            <label class="option"><input type="checkbox"> To chat for fun</label>
+            <label class="option"><input type="checkbox"> Games, jokes, or entertainment</label>
+            <label class="option"><input type="checkbox"> Something else</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="qtext">If you used AI for advice or for a problem, did you also talk to a person about it, too?</div>
+          <div class="choices">
+            <label class="option"><input type="radio" name="aihuman"> Yes</label>
+            <label class="option"><input type="radio" name="aihuman"> No</label>
+            <label class="option"><input type="radio" name="aihuman"> Sometimes</label>
+            <label class="option"><input type="radio" name="aihuman"> I don't use AI for advice or problems</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav"><button class="back" onclick="go(4)">Back</button><button class="next" onclick="go(6)">Finish</button></div>
+  </section>
+
+
+  <section class="section" data-step="6">
+    <div class="card finish">
+      <h2>Nice work — you’re all set! 🎉</h2>
+      <p>Thanks for telling us about your week.</p>
+      <p class="note">Mockup only — answers are not saved or submitted.</p>
+    </div>
+    <div class="nav"><button class="back" onclick="go(5)">Back</button><span></span></div>
+  </section>
+</div>
+
+<script>
+const sections=[...document.querySelectorAll('.section')];
+const progress=document.getElementById('progress');
+function go(step){
+  sections.forEach(s=>s.classList.remove('active'));
+  const target=document.querySelector(`.section[data-step="${step}"]`);
+  if(target) target.classList.add('active');
+  const pct=step===0?0:step>=6?100:step*20;
+  progress.style.width=pct+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('input[name="harm"]').forEach(el=>{
+  el.addEventListener('change',()=>document.getElementById('harmFollow').classList.toggle('show',el.checked&&el.value==='yes'));
+});
+</script>
+</body>
+</html>
